@@ -18,15 +18,15 @@ steps:
     versionSpec: '14.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
-## Run the npm install/build
 ##- script: |
-##    pushd $(projectFolder) && npm install && popd
-##    pushd $(projectFolder) && npm run build && popd
+##    npm install -g @angular/cli
+##    npm install
+##    ng build --prod
+##  displayName: 'npm install and build'
+## Run the npm install/build
+- script: |
+    pushd $(projectFolder) && npm install && popd
+    pushd $(projectFolder) && npm run build && popd
 ## Copy the client to the staging directory
 - task: CopyFiles@2
   inputs:
