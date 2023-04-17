@@ -3,7 +3,7 @@
 
 # define the VM image I want to use for my build
 pool:
-  vmImage: 'Ubuntu-latest'
+  vmImage: 'Ubuntu-16.04'
 
 # define variables to use during the build
 variables:
@@ -13,17 +13,10 @@ variables:
 # define the steps of the build
 steps:
 
-## Update OpenSSL version
-- script: |
-    sudo apt-get update && sudo apt-get install -y openssl
-    sudo update-alternatives --set openssl /usr/lib/ssl-1.0.0/openssl.cnf
-  displayName: 'Update OpenSSL'
-
 ## Run the npm install/build
 - script: |
     pushd $(projectFolder) && npm install && popd
     pushd $(projectFolder) && npm run build && popd
-
 ## Copy the client to the staging directory
 - task: CopyFiles@2
   inputs:
