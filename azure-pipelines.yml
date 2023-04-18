@@ -48,3 +48,14 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     artifactName: 'Angular Application'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'publish'
+#     publishWebProjects: true
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'KE-New-Services-Deployment'
+    appType: 'webApp'
+    appName: 'SEA-KE-Services-Test-APP-DEV'
+    package: '$(Build.ArtifactStagingDirectory)/100.zip'
