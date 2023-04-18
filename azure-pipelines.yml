@@ -47,3 +47,4 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    artifactName: 'Angular Application'
