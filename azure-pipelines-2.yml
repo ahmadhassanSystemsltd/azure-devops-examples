@@ -3,7 +3,7 @@
 
 # define the VM image I want to use for my build
 pool:
-  vmImage: 'Ubuntu-latest'
+  vmImage: 'Ubuntu 16.04'
 
 # define variables to use during the build
 variables:
@@ -17,6 +17,12 @@ steps:
 - script: |
     npm install -g @angular/cli@13.2.5
   displayName: 'Install Angular CLI'
+
+## Install Node packages
+- script: |
+    cd $(projectFolder)
+    npm install
+  displayName: 'Install Node packages'
 
 ## Build Angular project
 - script: |
