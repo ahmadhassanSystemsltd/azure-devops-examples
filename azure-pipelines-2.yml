@@ -10,31 +10,28 @@ variables:
   projectFolder: 'src/angular'
   buildOutputFolder: 'src/angular/dist/angular'
 
-# define the steps of the build
-steps:
-
-## Run the npm install/build
-- script: |
-    pushd $(projectFolder) && npm install && popd
-    pushd $(projectFolder) && npm run build && popd
-
-## Copy the client to the staging directory
-- task: CopyFiles@2
+steps: 
+- task: NodeTool@0
   inputs:
-    sourceFolder: '$(buildOutputFolder)' 
-    contents: '**/*' 
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    cleanTargetFolder: true
-
-## Archive the files into a zip file for publishing
-- task: ArchiveFiles@2
+    versionSpec: '16.0'
+  displayName: 'Install Node.js'
+ 
+- task: Npm@1  
+  displayName: 'Angular CLI 13.2.5'  
+  inputs:  
+    command: custom  
+    verbose: false  
+    customCommand: 'install -g @angular/cli@13.2.5'
+ 
+- task: Npm@1  
+  displayName: 'npm install'  
   inputs:
-    rootFolderOrFile: $(Build.ArtifactStagingDirectory)
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    includeRootFolder: false
-
-## Publish the zip file
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    command: custom  
+    customCommand: 'install file:custom-angular-lib.tgz --legacy-peer-deps'  
+   
+- task: Npm@1  
+  displayName: Build  
+  inputs: 
+    command: custom  
+    verbose: false  
+    customCommand: 'run build'
