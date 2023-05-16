@@ -15,6 +15,7 @@ steps:
 
 ## Install Angular CLI
 - script: |
+    npm uninstall -g @angular/cli
     npm install -g @angular/cli@13.2.5
   displayName: 'Install Angular CLI'
 
