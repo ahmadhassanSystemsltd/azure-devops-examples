@@ -1,30 +1,29 @@
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
-# Define the VM image I want to use for my build
+# define the VM image I want to use for my build
 pool:
   vmImage: 'Ubuntu-latest'
 
-# Define variables to use during the build
+# define variables to use during the build
 variables:
   projectFolder: 'src/angular'
   buildOutputFolder: 'src/angular/dist/angular'
 
 steps: 
-- task: NodeTool@0
+- task: UseNode@1
   inputs:
-    versionSpec: '16.x'
+    version: '16.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli@13.2.5
-    npm cache clean --force
+- script: npm install -g @angular/cli@13.2.5
   displayName: 'Install Angular CLI'
 
-- script: |
-    npm install file:custom-angular-lib.tgz --legacy-peer-deps
-  displayName: 'npm install'
+- task: UseNode@1
+  inputs:
+    version: '16.x'
+    checkLatest: true
+  displayName: 'Use Node.js version'
 
-- script: |
-    npm run build
-  displayName: 'Build'
+- script: ng build
+  displayName: 'Angular Build'
